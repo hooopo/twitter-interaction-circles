@@ -28,12 +28,12 @@ async function main() {
 		{distance: 0, count: 1, radius: 110, users: [user]},
 		{distance: 200, count: layers[0], radius: 64, 
 			users: [
-				{screen_name: "joebiden", avatar: "https://pbs.twimg.com/profile_images/1276559966212654081/0oGAop6Q_400x400.jpg"},
-				{screen_name: "kanyewest", avatar: "https://pbs.twimg.com/profile_images/1227379798656221696/_d7a9xlg_400x400.jpg"},
-				{screen_name: "elonmusk", avatar: "https://pbs.twimg.com/profile_images/1295975423654977537/dHw9JcrK_400x400.jpg"},
-				{screen_name: "BarackObama", avatar: "https://pbs.twimg.com/profile_images/822547732376207360/5g0FC8XX_400x400.jpg"},
-				{screen_name: "katyperry", avatar: "https://pbs.twimg.com/profile_images/1195380678477143553/USVh7v6B_400x400.jpg"},
-				{screen_name: "rihanna", avatar: "https://pbs.twimg.com/profile_images/1279342408751986177/oOeFyFz_400x400.jpg"}
+				{screen_name: "joebiden", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"},
+				{screen_name: "kanyewest", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"},
+				{screen_name: "elonmusk", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"},
+				{screen_name: "BarackObama", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"},
+				{screen_name: "katyperry", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"},
+				{screen_name: "rihanna", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"}
 			]
 
 			},
