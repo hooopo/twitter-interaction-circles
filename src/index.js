@@ -46,7 +46,7 @@ function splitArray(input, groupSizes) {
 }
 
 async function main() {
-	const user = await getQueryResults('SELECT avatar_url as avatar, login as screen_name FROM curr_user limit 1');
+	const user = await getQueryResults('SELECT u.avatar_url as avatar, u.login as screen_name FROM users u join curr_user on curr_user.id = u.id limit 1');
 
 	// this is how many users we will have for each layer from the inside out
 	const layers = [8, 15, 26];
