@@ -1,10 +1,5 @@
-const dotenv = require("dotenv");
-const getInteractions = require("./data");
 const render = require("./image");
-const {getUser} = require("./api");
 const {renderText} = require("./text");
-const Twitter = require("twitter-lite");
-
 const mysql = require('mysql2/promise');
 
 function getDbConfig() {
@@ -35,11 +30,6 @@ async function getQueryResults(query) {
 }
 
 
-/**
- * Load the environment variables from the .env file
- */
-dotenv.config();
-
 function splitArray(input, groupSizes) {
   let output = [];
   for (let size of groupSizes) {
@@ -55,15 +45,8 @@ function splitArray(input, groupSizes) {
   return output;
 }
 
-/**
- * This is the main function of the app. It need to be a function because we can't have a top level await.
- */
 async function main() {
-
-
-	// fetch the information of the logged in user
-	// instead of getMe you could replace it with another method to get a third user to generate their circles
-	const user = {screen_name: "realDonaldTrump", avatar: "https://pbs.twimg.com/profile_images/874276197357596672/kUuht00m_400x400.jpg"};
+	const user = await getQueryResults('SELECT avatar_url as avatar, login as screen_name FROM curr_user limit 1');
 
 	// this is how many users we will have for each layer from the inside out
 	const layers = [8, 15, 26];
