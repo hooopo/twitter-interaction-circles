@@ -5,40 +5,35 @@ const {getUser} = require("./api");
 const {renderText} = require("./text");
 const Twitter = require("twitter-lite");
 
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 
-function conn() {
-  const url = process.env.DATABASE_URL;
-	console.log(url);
-  const parsedUrl = new URL(url);
-  const host = parsedUrl.hostname;
-  const port = parsedUrl.port;
-  const user = parsedUrl.username;
-  const password = parsedUrl.password;
-  const database = parsedUrl.pathname.replace("/", "");
-
-  const conn = mysql.createConnection({
-    host: host,
-    port: port,
-    user: user,
-    password: password,
-    database: database,
-    ssl: {
-      minVersion: 'TLSv1.2',
-      rejectUnauthorized: true
-    }
-  });
-
-	const results = [];
-	
-	conn.query("SELECT avatar_url as avatar, login as screen_name  FROM users limit 49", function (err, result, fields) {
-		if (err) throw err;
-		results.push(result);
-	});
-
-	return results;
-
+function getDbConfig() {
+	const url = process.env.DATABASE_URL;
+	const parsedUrl = new URL(url);
+	const host = parsedUrl.hostname;
+	const port = parsedUrl.port;
+	const user = parsedUrl.username;
+	const password = parsedUrl.password;
+	const database = parsedUrl.pathname.replace("/", "");
+	return {
+		host: host,
+		port: port,
+		user: user,
+		password: password,
+		database: database,
+		ssl: {
+			minVersion: 'TLSv1.2',
+			rejectUnauthorized: true
+		}
+	}
 }
+
+async function getQueryResults(query) {
+	const conn = await mysql.createConnection(getDbConfig());
+	const [rows, fields] = await conn.execute(query);
+	return rows;
+}
+
 
 /**
  * Load the environment variables from the .env file
@@ -73,7 +68,8 @@ async function main() {
 	// this is how many users we will have for each layer from the inside out
 	const layers = [8, 15, 26];
 
-	results = conn();
+	const sqlQuery = 'SELECT avatar_url as avatar, login as screen_name FROM users limit 49';
+  const results = await getQueryResults(sqlQuery);
 
 	const users = splitArray(results, layers);
 
@@ -86,10 +82,6 @@ async function main() {
 		{distance: 450, count: layers[2], radius: 50, users: users[2]},
 	]);
 
-	// Look at the arguments passed to the cli. If one of them is --text then we want to render a text version of the image too
-	const shouldRenderText = process.argv.find((arg) => arg === "--text");
-	if (shouldRenderText) await renderText(users);
 }
 
-// entry point
 main();
