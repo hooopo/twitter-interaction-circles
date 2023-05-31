@@ -75,7 +75,7 @@ async function main() {
 	from users
 	left join follow on follow.screen_name = users.login 
 	left join follower on follower.screen_name = users.login
-	order by (COALESCE(follow.score, 0) + COALESCE(follower.score, 0)) desc
+	order by (COALESCE(follow.score, 0) + COALESCE(follower.score, 0)) desc, users.followers_count desc
 	limit 49
 	`;
   const results = await getQueryResults(sqlQuery);
