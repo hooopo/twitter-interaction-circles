@@ -1,5 +1,12 @@
 name: Generate circle.png
-on: push
+
+on:
+  schedule:
+    - cron: '0 */3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   run:
