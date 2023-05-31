@@ -72,5 +72,9 @@ module.exports = async function render(config) {
 	const out = fs.createWriteStream("./circle.png");
 	const stream = canvas.createPNGStream();
 	stream.pipe(out);
-	out.on("finish", () => console.log("Done!"));
+	out.on("finish", function () {
+		console.log("The PNG file was created.");
+		process.exit(0);
+	}
+	);
 };
