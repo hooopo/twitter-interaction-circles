@@ -51,7 +51,33 @@ async function main() {
 	// this is how many users we will have for each layer from the inside out
 	const layers = [8, 15, 26];
 
-	const sqlQuery = 'SELECT avatar_url as avatar, login as screen_name FROM users limit 49';
+	// simple friends calculation based on followers and followings, todo: add more complex calculation
+	const sqlQuery = `
+	with follow as (
+		select users.avatar_url as avatar,
+		users.login as screen_name,
+		1 as score
+		from followings  
+		join curr_user on curr_user.id = followings.user_id 
+		join users on followings.target_user_id = users.id
+	),
+	
+	follower as (
+		select users.avatar_url as avatar,
+		users.login as screen_name,
+		1 as score
+		from followers  
+		join curr_user on curr_user.id = followers.user_id 
+		join users on followers.target_user_id = users.id
+	)
+	
+	select users.avatar_url as avatar, users.login as screen_name
+	from users
+	left join follow on follow.screen_name = users.login 
+	left join follower on follower.screen_name = users.login
+	order by (COALESCE(follow.score, 0) + COALESCE(follower.score, 0)) desc
+	limit 49
+	`;
   const results = await getQueryResults(sqlQuery);
 
 	const users = splitArray(results, layers);
