@@ -1,0 +1,25 @@
+name: Generate circle.png
+on: push
+
+jobs:
+  run:
+    name: Lint with ESLint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: yarn install
+
+      - name: Update source code
+        run: yarn build
+
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: 'sync circle.png'
+          add: '*.png'
