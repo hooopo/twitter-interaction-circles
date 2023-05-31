@@ -82,13 +82,13 @@ async function main() {
 	await render([
 		{distance: 0, count: 1, radius: 110, users: [user]},
 		{distance: 200, count: layers[0], radius: 64, users: users[0]},
-		{distance: 330, count: layers[1], radius: 58, users: data[1]},
-		{distance: 450, count: layers[2], radius: 50, users: data[2]},
+		{distance: 330, count: layers[1], radius: 58, users: users[1]},
+		{distance: 450, count: layers[2], radius: 50, users: users[2]},
 	]);
 
 	// Look at the arguments passed to the cli. If one of them is --text then we want to render a text version of the image too
 	const shouldRenderText = process.argv.find((arg) => arg === "--text");
-	if (shouldRenderText) await renderText(data);
+	if (shouldRenderText) await renderText(users);
 }
 
 // entry point
